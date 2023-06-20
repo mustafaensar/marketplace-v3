@@ -10,7 +10,7 @@ export default function Buy() {
   const { contract } = useContract(NFT_COLLECTION_ADDRESS);
   const { data, isLoading } = useNFTs(contract);
 
-  const [selectedFilters, setSelectedFilters] = useState({
+  const [selectedFilters, setSelectedFilters] = useState<Record<string, string>>({
     "Backgrounds": "",
     "Left Eye": "",
     "Right Eye": "",
@@ -27,10 +27,10 @@ export default function Buy() {
   const filterNFTs = (nft: any) => {
     const { attributes } = nft.metadata;
     return (
-      (!selectedFilters["Backgrounds"] || attributes.find((attr: any) => attr.trait_type === "Backgrounds" && attr.value === selectedFilters.Backgrounds)) &&
+      (!selectedFilters["Backgrounds"] || attributes.find((attr: any) => attr.trait_type === "Backgrounds" && attr.value === selectedFilters["Backgrounds"])) &&
       (!selectedFilters["Left Eye"] || attributes.find((attr: any) => attr.trait_type === "Left Eye" && attr.value === selectedFilters["Left Eye"])) &&
       (!selectedFilters["Right Eye"] || attributes.find((attr: any) => attr.trait_type === "Right Eye" && attr.value === selectedFilters["Right Eye"])) &&
-      (!selectedFilters["Mouth"] || attributes.find((attr: any) => attr.trait_type === "Mouth" && attr.value === selectedFilters.Mouth))
+      (!selectedFilters["Mouth"] || attributes.find((attr: any) => attr.trait_type === "Mouth" && attr.value === selectedFilters["Mouth"]))
     );
   };
 
@@ -46,32 +46,65 @@ export default function Buy() {
       <div className={styles.filters}>
         <Filter
           label="Background"
-          options={["Blue", "Green", "Pink", "Purple", "Red", "Yellow"]}
+          options={Array.from(
+            new Set(
+              filteredData?.flatMap((nft: any) =>
+                nft.metadata.attributes
+                  .filter((attr: any) => attr.trait_type === "Backgrounds")
+                  .map((attr: any) => attr.value)
+              )
+            )
+          ).sort()}
           value={selectedFilters["Backgrounds"]}
           onChange={(value) => handleFilterChange("Backgrounds", value)}
         />
 
         <Filter
           label="Left Eye"
-          options={["Open", "Partial Bottom", "Partial Top", "Skew Gold", "Skew"]}
+          options={Array.from(
+            new Set(
+              filteredData?.flatMap((nft: any) =>
+                nft.metadata.attributes
+                  .filter((attr: any) => attr.trait_type === "Left Eye")
+                  .map((attr: any) => attr.value)
+              )
+            )
+          ).sort()}
           value={selectedFilters["Left Eye"]}
           onChange={(value) => handleFilterChange("Left Eye", value)}
         />
 
         <Filter
           label="Right Eye"
-          options={["Open", "Partial Bottom", "Partial Top", "Skew Gold", "Skew"]}
+          options={Array.from(
+            new Set(
+              filteredData?.flatMap((nft: any) =>
+                nft.metadata.attributes
+                  .filter((attr: any) => attr.trait_type === "Right Eye")
+                  .map((attr: any) => attr.value)
+              )
+            )
+          ).sort()}
           value={selectedFilters["Right Eye"]}
           onChange={(value) => handleFilterChange("Right Eye", value)}
         />
 
         <Filter
           label="Mouth"
-          options={["Sad", "Smile", "Smile Huge", "Smile Skew", "Smile Skew Huge", "Smile Skew Huge Gold"]}
+          options={Array.from(
+            new Set(
+              filteredData?.flatMap((nft: any) =>
+                nft.metadata.attributes
+                  .filter((attr: any) => attr.trait_type === "Mouth")
+                  .map((attr: any) => attr.value)
+              )
+            )
+          ).sort()}
           value={selectedFilters["Mouth"]}
           onChange={(value) => handleFilterChange("Mouth", value)}
         />
       </div>
+
 
       <NFTGrid
         data={filteredData}
