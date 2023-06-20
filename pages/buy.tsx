@@ -4,6 +4,7 @@ import Container from "../components/Container/Container";
 import NFTGrid from "../components/NFT/NFTGrid";
 import { NFT_COLLECTION_ADDRESS } from "../const/contractAddresses";
 import styles from "../styles/Buy.module.css";
+import Filter from "../components/Filter/Filter";
 
 export default function Buy() {
   const { contract } = useContract(NFT_COLLECTION_ADDRESS);
@@ -43,77 +44,33 @@ export default function Buy() {
       </div>
 
       <div className={styles.filters}>
-        <div className={styles.filter}>
-          <label htmlFor="backgroundFilter">Background</label>
-          <select
-            id="backgroundFilter"
-            value={selectedFilters["Backgrounds"]}
-            onChange={(e) =>
-              handleFilterChange("Backgrounds", e.target.value)
-            }
-            className={styles.select}
-          >
-            <option value="">All</option>
-            <option value="Blue">Blue</option>
-            <option value="Green">Green</option>
-            <option value="Pink">Pink</option>
-            <option value="Purple">Purple</option>
-            <option value="Red">Red</option>
-            <option value="Yellow">Yellow</option>
-          </select>
-        </div>
+        <Filter
+          label="Background"
+          options={["Blue", "Green", "Pink", "Purple", "Red", "Yellow"]}
+          value={selectedFilters["Backgrounds"]}
+          onChange={(value) => handleFilterChange("Backgrounds", value)}
+        />
 
-        <div className={styles.filter}>
-          <label htmlFor="leftEyeFilter">Left Eye</label>
-          <select
-            id="leftEyeFilter"
-            value={selectedFilters["Left Eye"]}
-            onChange={(e) => handleFilterChange("Left Eye", e.target.value)}
-            className={styles.select}
-          >
-            <option value="">All</option>
-            <option value="Open">Open</option>
-            <option value="Partial Bottom">Partial Bottom</option>
-            <option value="Partial Top">Partial Top</option>
-            <option value="Skew Gold">Skew Gold</option>
-            <option value="Skew">Skew</option>
-          </select>
-        </div>
+        <Filter
+          label="Left Eye"
+          options={["Open", "Partial Bottom", "Partial Top", "Skew Gold", "Skew"]}
+          value={selectedFilters["Left Eye"]}
+          onChange={(value) => handleFilterChange("Left Eye", value)}
+        />
 
-        <div className={styles.filter}>
-          <label htmlFor="rightEyeFilter">Right Eye</label>
-          <select
-            id="rightEyeFilter"
-            value={selectedFilters["Right Eye"]}
-            onChange={(e) => handleFilterChange("Right Eye", e.target.value)}
-            className={styles.select}
-          >
-            <option value="">All</option>
-            <option value="Open">Open</option>
-            <option value="Partial Bottom">Partial Bottom</option>
-            <option value="Partial Top">Partial Top</option>
-            <option value="Skew Gold">Skew Gold</option>
-            <option value="Skew">Skew</option>
-          </select>
-        </div>
+        <Filter
+          label="Right Eye"
+          options={["Open", "Partial Bottom", "Partial Top", "Skew Gold", "Skew"]}
+          value={selectedFilters["Right Eye"]}
+          onChange={(value) => handleFilterChange("Right Eye", value)}
+        />
 
-        <div className={styles.filter}>
-          <label htmlFor="mouthFilter">Mouth</label>
-          <select
-            id="mouthFilter"
-            value={selectedFilters["Mouth"]}
-            onChange={(e) => handleFilterChange("Mouth", e.target.value)}
-            className={styles.select}
-          >
-            <option value="">All</option>
-            <option value="Sad">Sad</option>
-            <option value="Smile">Smile</option>
-            <option value="Smile Huge">Smile Huge</option>
-            <option value="Smile Skew">Smile Skew</option>
-            <option value="Smile Skew Huge">Smile Skew Huge</option>
-            <option value="Smile Skew Huge Gold">Smile Skew Huge Gold</option>
-          </select>
-        </div>
+        <Filter
+          label="Mouth"
+          options={["Sad", "Smile", "Smile Huge", "Smile Skew", "Smile Skew Huge", "Smile Skew Huge Gold"]}
+          value={selectedFilters["Mouth"]}
+          onChange={(value) => handleFilterChange("Mouth", value)}
+        />
       </div>
 
       <NFTGrid
