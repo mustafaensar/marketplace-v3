@@ -23,7 +23,6 @@ import randomColor from "../../../util/randomColor";
 import Skeleton from "../../../components/Skeleton/Skeleton";
 import toast, { Toaster } from "react-hot-toast";
 import toastStyle from "../../../util/toastConfig";
-import { type } from "os";
 
 type Props = {
   nft: NFT;
@@ -133,15 +132,16 @@ export default function TokenPage({ nft, contractMetadata }: Props) {
               <h3 className={styles.descriptionTitle}>Traits</h3>
 
               <div className={styles.traitsContainer}>
-                {Object.entries(nft?.metadata?.attributes || {}).map(([key, value]) => {
-                  const typedValue = value as { trait_type: string, value: string };
-                  return (
+                {Object.entries(nft?.metadata?.attributes || {}).map(
+                  ([key, value]) => (
                     <div className={styles.traitContainer} key={key}>
-                      <p className={styles.traitName}>{typedValue.trait_type}</p>
-                      <p className={styles.traitValue}>{typedValue.value}</p>
+                      <p className={styles.traitName}>{key}</p>
+                      <p className={styles.traitValue}>
+                        {value?.toString() || ""}
+                      </p>
                     </div>
-                  );
-                })}
+                  )
+                )}
               </div>
 
               <h3 className={styles.descriptionTitle}>History</h3>
@@ -357,7 +357,9 @@ export default function TokenPage({ nft, contractMetadata }: Props) {
 export const getStaticProps: GetStaticProps = async (context) => {
   const tokenId = context.params?.tokenId as string;
 
-  const sdk = new ThirdwebSDK(NETWORK);
+  const sdk = new ThirdwebSDK(NETWORK, {
+    secretKey: process.env.TW_SECRET_KEY,
+  });
 
   const contract = await sdk.getContract(NFT_COLLECTION_ADDRESS);
 
@@ -379,7 +381,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const sdk = new ThirdwebSDK(NETWORK);
+  const sdk = new ThirdwebSDK(NETWORK, {
+    secretKey: process.env.TW_SECRET_KEY,
+  });
 
   const contract = await sdk.getContract(NFT_COLLECTION_ADDRESS);
 

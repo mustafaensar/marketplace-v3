@@ -7,6 +7,7 @@ import styles from "../styles/Buy.module.css";
 import Filter from "../components/Filter/Filter";
 
 export default function Buy() {
+  // Load all of the NFTs from the NFT Collection
   const { contract } = useContract(NFT_COLLECTION_ADDRESS);
   const { data, isLoading } = useNFTs(contract);
 

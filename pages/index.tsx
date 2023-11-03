@@ -34,12 +34,17 @@ const Home: NextPage = () => {
               className={styles.heroAsset}
             />
           </div>
-          <Link className={styles.heroCta} href="/buy">
+          
+              
+                <Link className={styles.heroCta} href="/buy">
                   Get Started
-          </Link>
-        </div>
-      </div>
-    </div>
+                </Link>
+                
+              </div>
+            </div>
+          </div>
+        
+      
   );
 };
 
